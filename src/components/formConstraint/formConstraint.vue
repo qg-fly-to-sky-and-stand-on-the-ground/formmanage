@@ -87,7 +87,7 @@
     <div class="form-out-container">
         <div class="formconstraint-header">
             <div class="formconstraint-title">表单约束</div>
-            <div class="add-fied-btn">编辑约束字段</div>
+            <div class="add-fied-btn"  @click="edit=true">编辑字段约束</div>
             <div class="cancel-fied-btn">删除字段</div>
             <div class="edit-fied-btn">添加字段</div>
         </div>
@@ -129,7 +129,7 @@
                 <div class="form-data-content">字段约束</div>
             </div>
         </div>
-        <editConstraint></editConstraint>
+        <editConstraint v-if="edit" :edit="edit" @on-close="closeDialog"></editConstraint>
     </div>
 </template>
 
@@ -143,7 +143,11 @@
             editConstraint
         }
     })
-    export default class Header extends Vue {
+    export default class formConstraint extends Vue {
+         edit: boolean = false;
 
+        closeDialog() {
+            this.edit = false
+        }
     }
 </script>
