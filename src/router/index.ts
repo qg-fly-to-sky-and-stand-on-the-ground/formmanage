@@ -9,9 +9,9 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  routes: [
-    indexRoute
-  ]
+    routes: [
+        indexRoute
+    ]
 });
 
 export default router;

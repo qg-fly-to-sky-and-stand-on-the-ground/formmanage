@@ -10,7 +10,8 @@
 <template>
   <div class="layout-container">
     <left-section></left-section>
-    <right-section></right-section>
+    <right-section>
+    </right-section>
   </div>
 </template>
 
