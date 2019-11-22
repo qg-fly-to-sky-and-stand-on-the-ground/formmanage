@@ -2,6 +2,7 @@
 .right-section {
   position: relative;
   flex: 1;
+  background-color: #FAFAFA;
 }
 </style>
 
@@ -17,12 +18,10 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import Header from "@/views/layout/rightSection/header/Header.vue";
-import formConstraint from "@/components/formConstraint/formConstraint.vue";
 
 @Component({
   components: {
-    Header,
-    formConstraint
+    Header
   }
 })
 export default class RightSection extends Vue {
