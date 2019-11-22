@@ -16,15 +16,21 @@
     height: 92px;
 
     .time {
-
+      width:148px;
+      height:20px;
+      font-weight:300;
+      line-height:34px;
+      color:rgba(95,125,222,1);
     }
 
     .user {
-
+      width: 40px;
+      height: 40px;
     }
 
     .exit {
-
+      width: 40px;
+      height: 40px;
     }
   }
 }
