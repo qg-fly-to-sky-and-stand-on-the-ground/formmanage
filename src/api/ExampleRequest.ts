@@ -1,10 +1,11 @@
 import {Request} from "@/api/config";
 
+
 class ExampleRequest extends Request {
-    字段增删查改(data: {
-        a: string;
+    getData(data: {
+        "form": object
     }) {
-        return this.post('12321', data);
+        return this.post('/form/getconstraint', data);
     }
 
 

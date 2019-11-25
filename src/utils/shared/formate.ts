@@ -26,6 +26,13 @@ function getFailResData(res: any): {
   }
 }
 
+//:{
+//   isSuccess: boolean;
+//   msg: string;
+//   data: any;
+// }这个是返回类型的判断
+//data?: string; ?表示可有可无
+
 export function getResultResData(res: {
   code: number;
   msg: string;
