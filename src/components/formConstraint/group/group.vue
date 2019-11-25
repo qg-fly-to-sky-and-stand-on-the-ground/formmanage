@@ -145,7 +145,7 @@
 
         Group() {
             for (let i = 0; i < this.constraintList.length; i++) {
-                this.groupMap.set(toString(this.constraintList[i].group), this.constraintList[i])
+                // this.groupMap.set(toString(this.constraintList[i].group), this.constraintList[i])
             }
         }
 
