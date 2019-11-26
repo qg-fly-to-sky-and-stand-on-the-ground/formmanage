@@ -9,8 +9,8 @@
     float: left;
     display: block;
     font-size:26px;
-    font-weight:400;]
-    color:rgba(112,112,112,1);
+    font-weight:400;
+    color:rgba(112,112,112);
     opacity:1;
   }
 }
