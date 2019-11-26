@@ -1,18 +1,18 @@
 <style lang="scss" scoped>
 @import "scss/mixin";
-.edit-filed-container {
+.edit-group-container {
   position: relative;
   width:736px;
-  height:338px;
+  height:584px;
   background:rgba(255,255,255,1);
   box-shadow:0px 3px 6px rgba(0,0,0,0.16);
+  opacity:1;
   border-radius:8px;
-  overflow: hidden;
 
   .item-container {
+    @include clear-float;
     width: 100%;
     display: flex;
-    height: 48px;
     margin-top: 20px;
 
     .item-key {
@@ -20,7 +20,7 @@
       float: left;
       width: 170px;
       text-align: end;
-      font-size:24px;
+      font-size:23px;
       font-weight:400;
       line-height:48px;
       color:rgba(70,77,92,1);
@@ -42,8 +42,16 @@
     border-radius:4px;
   }
 
-  .radio-group {
-    @include vertical-center;
+  .check-box-container {
+    width:460px;
+    height: 300px;
+    overflow: auto;
+  }
+
+  .check-box {
+    display: block;
+    margin-top: 10px;
+    text-align: start;
   }
 
   .button-container {
@@ -56,20 +64,23 @@
 
 <template>
   <global-layer>
-    <div class="edit-filed-container">
-      <custom-header
-        :name="title"
-      ></custom-header>
+    <div class="edit-group-container">
+      <custom-header :name="title"></custom-header>
       <div class="item-container">
-        <span class="item-key">英文名称</span>
-        <input class="name-input" v-model="localName" />
+        <span class="item-key">群组名称</span>
+        <input class="name-input"/>
       </div>
       <div class="item-container">
-        <span class="item-key">类型</span>
-        <RadioGroup v-model="localType" class="radio-group">
-          <Radio label="单选" style="display: block;float: left;"></Radio>
-          <Radio label="多选" style="display: block;float: left;margin-left: .3rem"></Radio>
-        </RadioGroup>
+        <span class="item-key">所含字段</span>
+        <div class="check-box-container">
+          <CheckboxGroup v-model="localFiledList">
+            <Checkbox
+              v-for="(item, index) in allFiledList"
+              :key="item"
+              class="check-box"
+              label="item"></Checkbox>
+          </CheckboxGroup>
+        </div>
       </div>
       <div class="button-container">
         <Button style="width:1.20rem;height:.60rem;font-size: .2rem;box-shadow:0px 3px 6px rgba(0,0,0,0.16);"
@@ -87,23 +98,24 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import GlobalLayer from "@/components/globalLayer/GlobalLayer.vue";
-import {Prop} from "vue-property-decorator";
 import CustomHeader from "@/components/customHeader/CustomHeader.vue";
+import {Prop} from "vue-property-decorator";
 import {operationFailMsg} from "@/utils/shared/message";
-
 @Component({
   components: {CustomHeader, GlobalLayer}
 })
-export default class EditFiled extends Vue {
+export default class EditGroupFiled extends Vue {
+  title: string = '编辑所含字段';
+
   @Prop(String) name!: string;
 
-  @Prop(String) type!: string;
+  @Prop() filedList!: string[];
 
-  title: string = '';
+  @Prop() allFiledList!: string[];
+
+  localFiledList: string[] = [];
 
   localName: string = '';
-
-  localType: string = '';
 
   cancel() {
     this.$emit('on-cancel');
@@ -114,24 +126,19 @@ export default class EditFiled extends Vue {
       operationFailMsg('请填写字段名');
       return ;
     }
-    if (this.localType.length == 0) {
-      operationFailMsg('请选择一个类型!');
+    if (this.localFiledList.length == 0) {
+      operationFailMsg('请至少选择一个字段!');
       return ;
     }
     this.$emit('on-save', {
       name: this.localName,
-      type: this.localType
+      list: this.localFiledList
     });
   }
 
   beforeMount() {
-    if (this.name.length == 0) {
-      this.title = '添加群组';
-    } else {
-      this.title = '编辑群组';
-    }
-    this.localType = this.type ? this.type : '';
-    this.localName = this.name ? this.name : '';
+    this.localFiledList = this.filedList.concat();
+    this.localName = this.name;
   }
 }
 </script>
