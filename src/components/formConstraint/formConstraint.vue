@@ -28,6 +28,7 @@
         height: 72%;
         width: 100px;
         background-color: #FAFAFA;
+        cursor: pointer;
     }
 
     .border-bottom {
@@ -40,6 +41,7 @@
         width: 100px;
         background-color: #FAFAFA;
         margin-left: 15px;
+        cursor: pointer;
     }
 
     .add-fied-btn {
@@ -77,7 +79,9 @@
 
     .field-group {
         width: 1528px;
-        height: auto;
+        height: 650px;
+        overflow-y: scroll;
+        overflow-x: hidden;
         margin: auto;
         margin-top: 24px;
         background-color: rgba(255, 255, 255, 1);
@@ -94,9 +98,8 @@
                 <input :class="fieldClass" value="字段" type="button" @click="seenType=true">
                 <input :class="groupClass" value="群主" type="button" @click="seenType=false">
             </div>
-            <div class="add-fied-btn" @click="edit=true">编辑字段约束</div>
-            <div class="cancel-fied-btn">删除字段</div>
             <div class="edit-fied-btn">添加字段</div>
+            <div class="cancel-fied-btn">添加群组</div>
         </div>
 
         <div class="field-group">

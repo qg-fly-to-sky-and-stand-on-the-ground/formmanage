@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
     @import "scss/mixin";
 
-    .fieldmeanBtn {
+    .expressionBtn {
         height: 75%;
         width: 60%;
         margin: 8.5px auto;
@@ -16,8 +16,8 @@
 </style>
 
 <template>
-    <div class="fieldmeanBtn">
-        字段含义
+    <div class="expressionBtn">
+        表达式1
     </div>
 </template>
 
@@ -30,7 +30,7 @@
 
         }
     })
-    export default class fieldmeanBtn extends Vue {
+    export default class expressionBtn extends Vue {
 
 
     }

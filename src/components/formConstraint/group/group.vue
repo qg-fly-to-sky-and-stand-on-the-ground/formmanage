@@ -3,7 +3,7 @@
     @import "scss/mixin";
     .group-container {
         width: 1528px;
-        height: auto;
+        height: 840px;
         margin: auto;
         margin-top: 24px;
         background-color: rgba(255, 255, 255, 1);
@@ -31,7 +31,7 @@
     .group-operate {
         display: inline-block;
         height: 68px;
-        width: 420px;
+        width: 399px;
         vertical-align: top;
         border-right: 2px solid rgba(245, 245, 245, 1);
         border-bottom: 2px solid rgba(245, 245, 245, 1);
@@ -86,9 +86,9 @@
             <div class="group-feild">所含字段</div>
             <div class="group-operate">操作</div>
         </div>
-        <div class="group-title" v-for="(dataList, index) in constraintList" :key="index">
-            <div class="group-name">{{dataList.group}}</div>
-            <div class="group-type">{{dataList.type}}</div>
+        <div class="group-title" v-for="(value, key) in groupType" :key="key">
+            <div class="group-name">{{key}}</div>
+            <div class="group-type">{{value.member[0].type}}</div>
             <div class="group-feild">
                 <p>name, key, word</p>
                 <img src="../../../assets/groupEdit.png">
@@ -101,6 +101,11 @@
 <script lang="ts">
     import Vue from 'vue'
     import Component from 'vue-class-component';
+    import store from '@/store';
+    import {getModule} from 'vuex-module-decorators';
+    import Auth from '@/store/modules/FiledManage'
+
+    const auth = getModule(Auth, store);
 
 
     @Component({
@@ -109,44 +114,44 @@
         }
     })
     export default class group extends Vue {
-        constraintList: Array<object> = [
-            {
-                "nameEn":"NSRMC",
-                "nameCh":"纳税人名称",
-                "des":"纳税人的名称",
-                "type":"SINGLE_COLUMN",
-                "length":"0-10",
-                "defaultValue":"100",
-                "group":"MX",
-                "regularExpression":"xxx"
+        data: object = {
+            "form":{
+                "id":"ae8a7da6-d7ed-4aac-bc45-1e6dd528fa95" // 参看表单中获取 demo可用 ae8a7da6-d7ed-4aac-bc45-1e6dd528fa95
             },
-            {
-                "nameEn":"NSRMC",
-                "nameCh":"纳税人名称",
-                "des":"纳税人的名称",
-                "type":"SINGLE_COLUMN",
-                "length":"0-10",
-                "defaultValue":"100",
-                "group":"MX",
-                "regularExpression":"xxx"
-            },
-            {
-                "nameEn":"NSRMC",
-                "nameCh":"纳税人名称",
-                "des":"纳税人的名称",
-                "type":"SINGLE_COLUMN",
-                "length":"0-10",
-                "defaultValue":"100",
-                "group":"MX",
-                "regularExpression":"xxx"
-            },
+        }
+        groupList: Array<object> = [
+
         ];
-        groupMap = new Map();
+        //用来装分组group
+        groupType: any = {}
+        temp: any = null;
 
         Group() {
-            for (let i = 0; i < this.constraintList.length; i++) {
-                // this.groupMap.set(toString(this.constraintList[i].group), this.constraintList[i])
+            for (let i = 0; i < this.groupList.length; i++) {
+                this.temp = this.groupList[i]
+
+                if(this.temp.group == null) {
+                    this.groupType.single = {groupName: "single", member: []}
+                    this.groupType.single.member.push(this.temp)
+                    continue
+                } else if(!(this.temp.group in this.groupType)) {
+                    this.groupType[this.temp.group] = {groupName: this.temp.group, member: []}
+                }
+
+                this.groupType[this.temp.group].member.push(this.temp)
             }
+        }
+
+        mounted() {
+            auth.getFormData(this.data).then((res: any) => {
+                console.log(res.data)
+                this.groupList = res.data.constraintList
+                this.Group()
+                console.log(this.groupType)
+        })
+            // this.Group()
+            // console.log(this.groupType)
+
         }
 
 

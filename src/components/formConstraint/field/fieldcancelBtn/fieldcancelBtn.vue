@@ -1,10 +1,11 @@
 <style lang="scss" scoped>
     @import "scss/mixin";
 
-    .fieldmeanBtn {
+    .fieldcancelBtn {
+        display: inline-block;
         height: 75%;
-        width: 60%;
-        margin: 8.5px auto;
+        width: 35%;
+        margin: 8.5px 0 0 10px;
         border: 1px solid gray;
         border-radius: 8px;
         line-height: 51px;
@@ -16,8 +17,8 @@
 </style>
 
 <template>
-    <div class="fieldmeanBtn">
-        字段含义
+    <div class="fieldcancelBtn">
+        删除
     </div>
 </template>
 
@@ -30,7 +31,7 @@
 
         }
     })
-    export default class fieldmeanBtn extends Vue {
+    export default class fieldcancelBtn extends Vue {
 
 
     }

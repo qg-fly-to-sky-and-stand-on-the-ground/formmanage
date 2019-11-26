@@ -4,7 +4,6 @@
         width: 1528px;
         height: auto;
         margin: auto;
-        margin-top: 24px;
         background-color: rgba(255, 255, 255, 1);
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
         opacity: 1;
@@ -25,6 +24,7 @@
         border-bottom: 2px solid rgba(245, 245, 245, 1);
         line-height: 68px;
         font-size: 23px;
+        overflow-x: scroll;
     }
 
     .form-data-content-operate {
@@ -51,8 +51,13 @@
                 <div class="form-data-content">
                     <fieldmeanBtn></fieldmeanBtn>
                 </div>
-                <div class="form-data-content">{{dataList.constraint}}</div>
-                <div class="form-data-content form-data-content-operate">{{dataList.constraint}}</div>
+                <div class="form-data-content">
+                    <expressionBtn></expressionBtn>
+                </div>
+                <div class="form-data-content form-data-content-operate">
+                    <fieldPropbtn></fieldPropbtn>
+                    <fieldcancelBtn  @click.native="remove(index)"></fieldcancelBtn>
+                </div>
             </div>
         </div>
         <!--        <editConstraint v-if="edit" :edit="edit" @on-close="closeDialog"></editConstraint>-->
@@ -65,6 +70,9 @@
     // import editConstraint from "@/components/formConstraint/field/editConstraint/editConstraint.vue";
     // import singleConstraint from "@/components/formConstraint/field/editConstraint/singleConstraint/singleConstraint.vue";
     import fieldmeanBtn from "@/components/formConstraint/field/fieldmeanBtn/fieldmeanBtn.vue";
+    import expressionBtn from "@/components/formConstraint/field/expressionBtn/expressionBtn.vue";
+    import fieldPropbtn from "@/components/formConstraint/field/fiedPropbtn/fieldPropbtn.vue";
+    import fieldcancelBtn from "@/components/formConstraint/field/fieldcancelBtn/fieldcancelBtn.vue";
     import store from '@/store';
     import {getModule} from 'vuex-module-decorators';
     import Auth from '@/store/modules/FiledManage'
@@ -73,42 +81,17 @@
 
     @Component({
         components: {
-            fieldmeanBtn
+            fieldmeanBtn,
+            expressionBtn,
+            fieldPropbtn,
+            fieldcancelBtn
         }
     })
     export default class field extends Vue {
         edit: boolean = false;
-        constraintList: Array<object> = [
-            {
-                "nameEn":"NSRMC",
-                "nameCh":"纳税人名称",
-                "des":"纳税人的名称",
-                "type":"SINGLE_COLUMN",
-                "length":"0-10",
-                "defaultValue":"100",
-                "group":"MX",
-                "regularExpression":"xxx"
-            },
-            {
-                "nameEn":"NSRMC",
-                "nameCh":"纳税人名称",
-                "des":"纳税人的名称",
-                "type":"SINGLE_COLUMN",
-                "length":"0-10",
-                "defaultValue":"100",
-                "group":"MX",
-                "regularExpression":"xxx"
-            },
-            {
-                "nameEn":"NSRMC",
-                "nameCh":"纳税人名称",
-                "des":"纳税人的名称",
-                "type":"SINGLE_COLUMN",
-                "length":"0-10",
-                "defaultValue":"100",
-                "group":"MX",
-                "regularExpression":"xxx"
-            },
+        deleteField: object = {}
+        constraintList: any = [
+
         ];
         data: object = {
             "form":{
@@ -116,9 +99,31 @@
             },
         }
 
+        remove(index: any) {
+            for(let i = 0; i < this.constraintList.length; i++) {
+                if(i == index) {
+                    this.constraintList.splice(index, 1)
+                    this.deleteField = {
+                        form: {
+                            id: 'ae8a7da6-d7ed-4aac-bc45-1e6dd528fa95'
+                        },
+                        constraintList: [{id: this.constraintList[i].id}]
+                    }
+                    console.log(this.deleteField)
+
+                    auth.deleteField(this.deleteField).then((res: any) => {
+                        alert(res.msg)
+                    })
+                    break
+                }
+            }
+        }
+
         mounted () {
-            auth.getFormData(this.data).then((res: object) => {
-                console.log(res)
+            this.deleteField = {}
+            this.constraintList.length = 0;
+            auth.getFormData(this.data).then((res: any) => {
+                this.constraintList = res.data.constraintList
             })
         }
     }
