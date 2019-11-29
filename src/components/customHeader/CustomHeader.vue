@@ -10,7 +10,7 @@
     display: block;
     font-size:26px;
     font-weight:400;
-    color:rgba(112,112,112);
+    color:rgb(112,112,112);
     opacity:1;
   }
 }

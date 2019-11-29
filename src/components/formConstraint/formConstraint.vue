@@ -9,7 +9,7 @@
     .formconstraint-header {
         position: relative;
         width: 100%;
-        height: 60px;
+        height: 70px;
         margin-top: 24px;
     }
 
@@ -25,7 +25,7 @@
 
     .field {
         font-size: 25px;
-        height: 72%;
+        height: 90%;
         width: 100px;
         background-color: #FAFAFA;
         cursor: pointer;
@@ -37,7 +37,7 @@
 
     .field-right {
         font-size: 25px;
-        height: 72%;
+        height: 90%;
         width: 100px;
         background-color: #FAFAFA;
         margin-left: 15px;
@@ -50,31 +50,34 @@
         width: 168px;
         font-size: 17px;
         line-height: 60px;
-        right: 24px;
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
         border-radius: 8px;
+        margin-right: 24px;
     }
 
     .cancel-fied-btn {
-        position: absolute;
-        height: 100%;
+        float: right;
+        height: 80%;
         width: 128px;
         font-size: 17px;
         line-height: 60px;
-        right: 204px;
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
         border-radius: 8px;
+        background:rgba(255,255,255,1);
+        margin-right: 24px;
     }
 
     .edit-fied-btn {
-        position: absolute;
-        height: 100%;
+        float: right;
+        height: 80%;
         width: 128px;
         font-size: 17px;
         line-height: 60px;
         right: 344px;
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
         border-radius: 8px;
+        background:rgba(255,255,255,1);
+        margin-right: 24px;
     }
 
     .field-group {
@@ -84,10 +87,17 @@
         overflow-x: hidden;
         margin: auto;
         margin-top: 24px;
-        background-color: rgba(255, 255, 255, 1);
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
         opacity: 1;
         border-radius: 8px;
+        background:rgba(255,255,255,1);
+    }
+
+    .button-container {
+        width: 100%;
+        height: 60px;
+        margin-top: 40px;
+        text-align: center;
     }
 </style>
 
@@ -96,19 +106,20 @@
         <div class="formconstraint-header">
             <div class="formconstraint-title">
                 <input :class="fieldClass" value="字段" type="button" @click="seenType=true">
-                <input :class="groupClass" value="群主" type="button" @click="seenType=false">
+                <input :class="groupClass" value="群组" type="button" @click="seenType=false">
             </div>
-            <div class="edit-fied-btn">添加字段</div>
-            <div class="cancel-fied-btn">添加群组</div>
+            <input class="edit-fied-btn" type="button" value="添加群组" @click="addGroup" v-if="!seenType">
+            <input class="cancel-fied-btn" type="button" value="添加字段" @click="seenField=true" v-if="seenType">
         </div>
 
-        <div class="field-group">
+        <div class="edit-fied-btnfield-group">
             <field v-if="seenType"></field>
             <group v-if="!seenType"></group>
         </div>
 
-
-<!--        <editConstraint v-if="edit" :edit="edit" @on-close="closeDialog"></editConstraint>-->
+        <EditFiled v-if="seenEditFiled" :name="GroupName" @on-cancel="seenEditFiled=false"
+                   @on-save="saveEditFiled"></EditFiled>
+        <addField v-if="seenField" @on-cancel="cancelAddField" :isAdd="[]" @on-save="addField"></addField>
     </div>
 </template>
 
@@ -117,28 +128,78 @@
     import Component from 'vue-class-component';
     import field from '@/components/formConstraint/field/field.vue'
     import group from "@/components/formConstraint/group/group.vue";
+    import EditGroupFiled from '@/components/editGroupFiled/EditGroupFiled.vue'
+    import addField from "@/components/addField/addField.vue";
+    import store from '@/store';
+    import EditFiled from "@/components/editFiled/EditFiled.vue";
+    import Auth from '@/store/modules/FiledManage'
+    import {getModule} from 'vuex-module-decorators';
+
+    const auth = getModule(Auth, store);
 
     @Component({
         components: {
             field,
-            group
+            group,
+            EditFiled,
+            EditGroupFiled,
+            addField
         }
     })
     export default class formConstraint extends Vue {
         seenType: boolean = true
+        seenEditFiled: boolean = false
+        seenField: boolean = false
+        GroupName: string = ''
 
         get fieldClass() {
-            if(this.seenType == true) {
+            if (this.seenType == true) {
                 return "field border-bottom"
             }
             return "field"
         }
 
         get groupClass() {
-            if(this.seenType == true) {
+            if (this.seenType == true) {
                 return "field-right"
             }
             return "field-right border-bottom"
+        }
+
+        get watchData() {
+            return auth.constraintList
+        }
+
+        // cancelEditFiled() {
+        //     this.seenEditFiled = false
+        // }
+
+        cancelAddField() {
+            console.log("fuck")
+            this.seenField = false
+            this.seenType = false
+            this.seenType = true
+        }
+
+        addField() {
+
+        }
+
+        saveEditFiled(data: any) {
+            console.log(data)
+            this.seenEditFiled = false
+            this.$set(auth.groupType, data.name, {
+                groupName: data.name,
+                type: data.type,
+                groupString: '',
+                member: []
+            })
+            console.log(auth.groupType)
+            console.log(auth.groupType)
+        }
+
+        addGroup() {
+            this.seenEditFiled = true
         }
     }
 </script>

@@ -14,6 +14,11 @@ class ExampleRequest extends Request {
         return this.post('/form/delformconstraint', data);
     }
 
+    //修改群组属性
+    modifyGroupProp(data: any) {
+        return this.post('/form/commitconstraint', data);
+    }
+
 
 }
 

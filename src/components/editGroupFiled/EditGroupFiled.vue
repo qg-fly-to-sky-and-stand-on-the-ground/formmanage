@@ -68,7 +68,7 @@
       <custom-header :name="title"></custom-header>
       <div class="item-container">
         <span class="item-key">群组名称</span>
-        <input class="name-input"/>
+        <input class="name-input" v-model="localName" disabled/>
       </div>
       <div class="item-container">
         <span class="item-key">所含字段</span>
@@ -78,7 +78,7 @@
               v-for="(item, index) in allFiledList"
               :key="item"
               class="check-box"
-              label="item"></Checkbox>
+              :label="item"></Checkbox>
           </CheckboxGroup>
         </div>
       </div>
@@ -117,11 +117,34 @@ export default class EditGroupFiled extends Vue {
 
   localName: string = '';
 
+  oldList: string[] = [];
+
+  oldName: string = ''
+
   cancel() {
     this.$emit('on-cancel');
   }
 
   save() {
+    let Union1 =  this.oldList.concat(this.localFiledList.filter(v => !this.oldList.includes(v)))
+    let Union2 =  this.oldList.concat(this.localFiledList.filter(v => !this.oldList.includes(v)))
+
+    let deleteField = Union1.filter((item: any) => {
+      if(!(this.localFiledList.includes(item))) {
+        return item
+      }
+    })
+
+    let addField = Union2.filter((item: any) => {
+      if(!(this.oldList.includes(item))) {
+        return item
+      }
+    })
+
+    console.log(deleteField)
+    console.log(addField)
+
+
     if (this.localName.length == 0) {
       operationFailMsg('请填写字段名');
       return ;
@@ -132,13 +155,28 @@ export default class EditGroupFiled extends Vue {
     }
     this.$emit('on-save', {
       name: this.localName,
-      list: this.localFiledList
+      list: this.localFiledList,
+      oldList: this.oldList,
+      addField: addField,
+      deleteField: deleteField,
+      oldName: this.oldName
     });
   }
 
+  // isSame() {
+  //   for(let i = 0; i < this.localFiledList.length; i++) {
+  //     for(let j = i + 1; j < this.localFiledList.length; j++) {
+  //       if(this.localFiledList[i] == this.localFiledList[j])
+  //     }
+  //   }
+  // }
+
   beforeMount() {
     this.localFiledList = this.filedList.concat();
+    this.oldList = this.filedList.concat();
     this.localName = this.name;
+    this.oldName = this.name
+    console.log(this.localName)
   }
 }
 </script>

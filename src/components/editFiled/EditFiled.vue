@@ -61,7 +61,7 @@
         :name="title"
       ></custom-header>
       <div class="item-container">
-        <span class="item-key">英文名称</span>
+        <span class="item-key">中文名称</span>
         <input class="name-input" v-model="localName" />
       </div>
       <div class="item-container">
@@ -105,11 +105,18 @@ export default class EditFiled extends Vue {
 
   localType: string = '';
 
+  oldName: string = ''
+
   cancel() {
     this.$emit('on-cancel');
   }
 
   save() {
+    if(this.localType == "多选") {
+      this.localType = "MULTI_COLUMN"
+    } else if(this.localType == "单选") {
+      this.localType = "SINGLE_COLUMN"
+    }
     if (this.localName.length == 0) {
       operationFailMsg('请填写字段名');
       return ;
@@ -120,7 +127,8 @@ export default class EditFiled extends Vue {
     }
     this.$emit('on-save', {
       name: this.localName,
-      type: this.localType
+      type: this.localType,
+      oldName: this.oldName
     });
   }
 
@@ -132,6 +140,7 @@ export default class EditFiled extends Vue {
     }
     this.localType = this.type ? this.type : '';
     this.localName = this.name ? this.name : '';
+    this.oldName = this.name ? this.name : '';
   }
 }
 </script>
