@@ -3,7 +3,7 @@
 
     .form-out-container {
         width: 100%;
-        height: auto;
+        height: 79vh;
     }
 
     .formconstraint-header {
@@ -55,7 +55,7 @@
         margin-right: 24px;
     }
 
-    .cancel-fied-btn {
+    .cancel-fied-btn,.edit-fied-btn {
         float: right;
         height: 80%;
         width: 128px;
@@ -67,30 +67,32 @@
         margin-right: 24px;
     }
 
-    .edit-fied-btn {
-        float: right;
-        height: 80%;
-        width: 128px;
-        font-size: 17px;
-        line-height: 60px;
-        right: 344px;
-        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-        border-radius: 8px;
-        background:rgba(255,255,255,1);
-        margin-right: 24px;
-    }
+
+
 
     .field-group {
         width: 1528px;
-        height: 650px;
+        height: 95%;
         overflow-y: scroll;
         overflow-x: hidden;
         margin: auto;
-        margin-top: 24px;
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-        opacity: 1;
-        border-radius: 8px;
         background:rgba(255,255,255,1);
+    }
+
+    .field-group::-webkit-scrollbar {/*滚动条整体样式*/
+        width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
+        height: 4px;
+    }
+    .field-group::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 5px;
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: rgba(0,0,0,0.2);
+    }
+    .ifield-group::-webkit-scrollbar-track {/*滚动条里面轨道*/
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border-radius: 0;
+        background: rgba(0,0,0,0.1);
     }
 
     .button-container {
@@ -98,6 +100,27 @@
         height: 60px;
         margin-top: 40px;
         text-align: center;
+    }
+
+    .form-data-title {
+        width: 1528px;
+        margin: auto;
+        background-color: white;
+    }
+
+    .form-data-content {
+        display: inline-block;
+        width: 230px;
+        vertical-align: top;
+        border-right: 2px solid rgba(245, 245, 245, 1);
+        border-bottom: 2px solid rgba(245, 245, 245, 1);
+        line-height: 68px;
+        font-size: 15px;
+        overflow: hidden;
+    }
+
+    .form-data-content-operate {
+        width: 378px;
     }
 </style>
 
@@ -112,7 +135,7 @@
             <input class="cancel-fied-btn" type="button" value="添加字段" @click="seenField=true" v-if="seenType">
         </div>
 
-        <div class="edit-fied-btnfield-group">
+        <div class="field-group">
             <field v-if="seenType"></field>
             <group v-if="!seenType"></group>
         </div>

@@ -3,32 +3,29 @@
 
     .form-container {
         width: 1528px;
-        height: auto;
         margin: auto;
         background-color: rgba(255, 255, 255, 1);
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
         opacity: 1;
-        border-radius: 8px;
     }
 
     .form-data-title {
-        height: 70px;
         width: 100%;
     }
 
     .form-data-content {
         display: inline-block;
-        height: 68px;
         width: 230px;
         vertical-align: top;
         border-right: 2px solid rgba(245, 245, 245, 1);
         border-bottom: 2px solid rgba(245, 245, 245, 1);
         line-height: 68px;
         font-size: 15px;
+        overflow: hidden;
     }
 
     .form-data-content-operate {
-        width: 365px;
+        width: 378px;
     }
 
     .expressionBtn {
@@ -98,8 +95,6 @@
                     删除
                 </div>
             </div>
-
-
         </div>
         <addField v-if="addField" :isAdd="transmissionData" @on-cancel="addField=false"></addField>
         <editExpression @on-cancel="canceleditExpression" @on-save="saveExp" v-if="showExpression"
@@ -121,7 +116,7 @@
     import fieldcancelBtn from "@/components/formConstraint/field/fieldcancelBtn/fieldcancelBtn.vue";
     import store from '@/store';
     import {getModule} from 'vuex-module-decorators';
-    import {Prop} from "vue-property-decorator";
+    import {Prop, Watch} from "vue-property-decorator";
     import Auth from '@/store/modules/FiledManage'
 
     const auth = getModule(Auth, store);
@@ -143,7 +138,7 @@
         addField: boolean = false
         showRegular: boolean = false
         deleteField: object = {}
-        constraintList: any = [];
+        public  constraintList: any = [];
         oldRegName: string = ''
         ExpOld: string = ""
         transmissionData: string[] = []
@@ -154,7 +149,14 @@
             },
         }
 
-        get
+        get ListData() {
+            return auth.constraintList
+        }
+
+        @Watch("ListData")
+        getCount() {
+            this.constraintList = auth.constraintList
+        }
 
         showExp(index: number) {
             this.getNameEnCh(index)

@@ -4,15 +4,13 @@
     .group-container {
         width: 1528px;
         height: auto;
-        margin: 24px auto;
+        margin: auto;
         background-color: rgb(255, 255, 255);
-        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
         opacity: 1;
-        border-radius: 8px;
     }
 
     .group-title {
-        height: 70px;
+        height: 67px;
         width: 100%;
     }
 
@@ -52,7 +50,7 @@
     .group-feild {
         display: inline-block;
         height: 68px;
-        width: 600px;
+        width: 625px;
         vertical-align: top;
         border-right: 2px solid rgba(245, 245, 245, 1);
         border-bottom: 2px solid rgba(245, 245, 245, 1);

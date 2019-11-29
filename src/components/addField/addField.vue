@@ -167,8 +167,15 @@
             console.log(requestData)
             //todo 添加的时候页面不会更新，不知道为什么修改了他就更新了，我真的是日
             auth.modifyGroupPropData(JSON.stringify(requestData)).then((res: any) => {
+                auth.getFormData({
+                    form: {
+                        "id": "ae8a7da6-d7ed-4aac-bc45-1e6dd528fa95"
+                    }
+                }).then((res: any) => {
+                    auth.setList(res.data.constraintList)
+                    console.log(auth.constraintList)
+                })
                 this.$emit("on-cancel")
-                alert(res.msg)
             })
         }
 
