@@ -101,7 +101,10 @@
         </div>
 
         <EditFiled v-if="seenEdit" :name="name" @on-cancel="cancelEditFiled" @on-save="saveEditFiled"></EditFiled>
-        <EditGroupFiled v-if="seenEditGroupFiled" :name="GroupName" :filedList="filedList" :allFiledList="allFiledList" @on-cancel="cancelEditGroupFiled" @on-save="saveEditGroupFiled"></EditGroupFiled>
+        <EditGroupFiled v-if="seenEditGroupFiled" :name="GroupName" :filedList="filedList"
+                        :allFiledList="allFiledList"
+                        :type="type"
+                        @on-cancel="cancelEditGroupFiled" @on-save="saveEditGroupFiled"></EditGroupFiled>
     </div>
 </template>
 
@@ -135,6 +138,7 @@
         GroupName: string = ''
         filedList: Array<object> = []
         allFiledList: Array<object> = []
+        type: string = ''
         //用来装分组group
         groupSort: any = {}
         modifyGroupProp: any = {}
@@ -150,11 +154,12 @@
             this.GroupName = key
             this.filedList = []
             this.allFiledList = []
+            this.type = key
 
             console.log(this.GroupName)
             console.log(auth.groupType)
             console.log(key)
-            //todo 当找不到要处理一
+
             for(let i in auth.groupType) {
                 if(i == key) {
                     console.log(auth.groupType[i])
@@ -266,7 +271,6 @@
                 if(data.addField.length != 0) {
                     for(let j = 0; j < data.addField.length; j++) {
                         if(auth.constraintList[i].nameEn == data.addField[j]) {
-                            console.log("fuck")
                             console.log(auth.constraintList[i].nameEn)
                             auth.constraintList[i].group = data.name
                         }

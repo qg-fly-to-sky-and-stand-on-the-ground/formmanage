@@ -97,7 +97,7 @@
             </div>
         </div>
         <addField v-if="addField" :isAdd="transmissionData" @on-cancel="addField=false"></addField>
-        <editExpression @on-cancel="canceleditExpression" @on-save="saveExp" v-if="showExpression"
+        <editExpression @on-cancel="showExpression = false" @on-save="saveExp" v-if="showExpression"
                         :expressionList="transmissionExp" :oldName="ExpOld"></editExpression>
         <regularExpression @on-cancel="showRegular=false" @on-save="saveRegular" v-if="showRegular"
                            :oldRegName="oldRegName"></regularExpression>

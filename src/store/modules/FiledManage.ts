@@ -55,7 +55,7 @@ export default class Auth extends VuexModule {
                     }
                 }
                 this.groupType[this.temp.group].member.push(this.temp)
-                this.groupType[this.temp.group].groupString += this.temp.nameCh + '|'
+                this.groupType[this.temp.group].groupString += this.temp.nameCh + ','
             }
         }
     }

@@ -99,8 +99,13 @@ import Vue from 'vue'
 import Component from 'vue-class-component';
 import GlobalLayer from "@/components/globalLayer/GlobalLayer.vue";
 import CustomHeader from "@/components/customHeader/CustomHeader.vue";
+import store from '@/store';
+import {getModule} from 'vuex-module-decorators';
+import Auth from '@/store/modules/FiledManage'
 import {Prop} from "vue-property-decorator";
 import {operationFailMsg} from "@/utils/shared/message";
+
+const auth = getModule(Auth, store);
 @Component({
   components: {CustomHeader, GlobalLayer}
 })
@@ -113,6 +118,8 @@ export default class EditGroupFiled extends Vue {
 
   @Prop() allFiledList!: string[];
 
+  @Prop() type!: string;
+
   localFiledList: string[] = [];
 
   localName: string = '';
@@ -123,6 +130,17 @@ export default class EditGroupFiled extends Vue {
 
   cancel() {
     this.$emit('on-cancel');
+  }
+
+  //还原这些字段的类型单字段，还是多字段
+  changeType() {
+    for(let i = 0; i < auth.constraintList.length; i++) {
+      for(let j = 0; j < this.localFiledList.length; j++) {
+        if(auth.constraintList[i].nameEn == this.localFiledList[j]) {
+          auth.constraintList[i].type = this.type
+        }
+      }
+    }
   }
 
   save() {
@@ -144,6 +162,8 @@ export default class EditGroupFiled extends Vue {
     console.log(deleteField)
     console.log(addField)
 
+    this.changeType()
+
 
     if (this.localName.length == 0) {
       operationFailMsg('请填写字段名');
@@ -159,17 +179,9 @@ export default class EditGroupFiled extends Vue {
       oldList: this.oldList,
       addField: addField,
       deleteField: deleteField,
-      oldName: this.oldName
+      oldName: this.oldName,
     });
   }
-
-  // isSame() {
-  //   for(let i = 0; i < this.localFiledList.length; i++) {
-  //     for(let j = i + 1; j < this.localFiledList.length; j++) {
-  //       if(this.localFiledList[i] == this.localFiledList[j])
-  //     }
-  //   }
-  // }
 
   beforeMount() {
     this.localFiledList = this.filedList.concat();
