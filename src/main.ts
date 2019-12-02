@@ -10,6 +10,7 @@ import VueContextMenu from '@xunlei/vue-context-menu';
 Vue.use(VueContextMenu);
 
 Vue.use(ElementUI);
+Vue.use(ViewUI);
 
 Vue.config.productionTip = false
 

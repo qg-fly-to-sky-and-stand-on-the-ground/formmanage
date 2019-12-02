@@ -9,7 +9,6 @@
 <template>
   <section class="right-section">
     <Header></Header>
-    <formConstraint></formConstraint>
     <router-view/>
   </section>
 </template>
@@ -18,10 +17,12 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import Header from "@/views/layout/rightSection/header/Header.vue";
+import FormConstraint from "@/components/formConstraint/formConstraint.vue";
 
 @Component({
   components: {
-    Header
+    FormConstraint,
+    Header,
   }
 })
 export default class RightSection extends Vue {
