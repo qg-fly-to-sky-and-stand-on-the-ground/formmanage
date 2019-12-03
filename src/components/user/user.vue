@@ -220,20 +220,31 @@ export default {
             // 复原
             let hasKey = document.getElementsByClassName("editable");
             for (let i = 0; i < hasKey.length; i++) {
+              
               for (let j = 0; j < that.List.length; j++) {
+                
                 if (hasKey[i].getAttribute("key") == that.List[j].nameEn) {
-                  that.unlabeledList.splice(that.List[j], 1);
-                  that.labeledList.push(that.List[j]);
-                  that.correspondList.push(hasKey[i]);
-                  if (hasKey[i].nodeName == "TD") {
+                                    if (hasKey[i].nodeName == "TD") {
                     hasKey[i].innerHTML = that.List[j].nameCh;
                   }
                   if (hasKey[i].nodeName == "SPAN") {
                     hasKey[i].innerHTML += "  [" + that.List[j].nameCh + "]";
                   }
+                  that.labeledList.push(that.List[j]);
+                  that.correspondList.push(hasKey[i]);
                 }
               }
             }
+            for(let i = 0; i < that.labeledList.length; i++){
+              if(that.unlabeledList.indexOf(that.labeledList[i])!=-1){
+                          let index = that.unlabeledList.length - 1;
+          while (that.unlabeledList[index] != that.labeledList[i]) {
+            index--;
+          }
+                that.unlabeledList.splice(index, 1);
+              }
+            }
+            
 
             for (let i = 0; i < tdAll.length; i++) {
               if (tdAll[i].getAttribute("writable")) {
@@ -279,7 +290,7 @@ export default {
         data: JSON.stringify(data),
         dataType: "json",
         success: function(data) {
-          console.log(data);
+          console.log(data, "约束");
           that.List = data.data.constraintList;
           that.unlabeledList = data.data.constraintList;
         },
@@ -294,6 +305,7 @@ export default {
       for (let i = 0; i < edited.length; i++) {
         edited[i].removeAttribute("style");
         edited[i].removeAttribute("index");
+        edited[i].classList.remove("Multinomial");
         if (edited[i].innerText.indexOf("□") == -1) {
           edited[i].innerHTML = "";
         }
@@ -359,6 +371,7 @@ export default {
       this.editable = true;
     },
     addKey() {
+      let that = this;
       if (!this.dom) {
         this.unlabeledList.push(this.labeledList[this.labeledList.length - 1]);
         this.labeledList.splice(this.labeledList.length - 1, 1);
@@ -409,12 +422,61 @@ export default {
             this.dom.innerHTML +=
               "  [" + this.unlabeledList[this.currentIndex].nameCh + "]";
           }
-          this.dom.setAttribute("writable", "true");
-          this.dom.setAttribute(
-            "key",
-            this.unlabeledList[this.currentIndex].nameEn
+          // 多项
+          let Multinomial = document.getElementsByClassName(
+            this.dom.parentNode.classList[0].toString()
           );
-          this.dom.setAttribute("index", this.currentIndex);
+          let MultinomialList = this.dom.parentNode.getElementsByClassName(
+            this.dom.classList[0].toString()
+          );
+          let index = MultinomialList.length - 1;
+          while (MultinomialList[index] != this.dom) {
+            index--;
+          }
+          console.log(index);
+          console.log(this.dom.nodeName);
+          if (Multinomial.length > 1 && this.dom.nodeName == "TD") {
+            if (
+              this.dom.parentNode.getElementsByClassName(this.dom.classList[0])
+                .length > 0
+            ) {
+              for (let i = 0; i < Multinomial.length; i++) {
+                if (
+                  Multinomial[i].getElementsByClassName(this.dom.classList[0])
+                    .length > 0
+                ) {
+                  Multinomial[i].getElementsByClassName(this.dom.classList[0])[
+                    index
+                  ].style.border = "1px solid #01A527";
+                  Multinomial[i].getElementsByClassName(this.dom.classList[0])[
+                    index
+                  ].innerHTML = this.unlabeledList[this.currentIndex].nameCh;
+                  Multinomial[i]
+                    .getElementsByClassName(this.dom.classList[0])
+                    [index].setAttribute("writable", "true");
+                  Multinomial[i]
+                    .getElementsByClassName(this.dom.classList[0])
+                    [index].setAttribute(
+                      "key",
+                      this.unlabeledList[this.currentIndex].nameEn
+                    );
+                  Multinomial[i]
+                    .getElementsByClassName(this.dom.classList[0])
+                    [index].setAttribute("index", this.currentIndex);
+                  Multinomial[i]
+                    .getElementsByClassName(this.dom.classList[0])
+                    [index].classList.add("Multinomial");
+                }
+              }
+            }
+          } else {
+            this.dom.setAttribute("writable", "true");
+            this.dom.setAttribute(
+              "key",
+              this.unlabeledList[this.currentIndex].nameEn
+            );
+            this.dom.setAttribute("index", this.currentIndex);
+          }
         } else {
           this.correspondList.push(this.domLast);
           if (this.domLast.nodeName == "TD") {
@@ -446,10 +508,38 @@ export default {
     },
     handleClick() {},
     delformconstraint() {
+      console.log(this.deletingTd.getAttribute("index"));
       this.unlabeledList.push(
-        this.labeledList[this.deletingTd.getAttribute("index")]
+        this.labeledList[
+          this.correspondList.findIndex(item => item === this.deletingTd)
+        ]
       );
-      this.labeledList.splice(this.deletingTd.getAttribute("index"), 1);
+      this.labeledList.splice(this.correspondList.indexOf(this.deletingTd), 1);
+
+      // 多项
+      let Multinomial = document.getElementsByClassName("Multinomial");
+      let that = this;
+      let flag = false;
+      console.log(Multinomial);
+      for (let i = 0; i < Multinomial.length; i++) {
+        console.log(that.deletingTd);
+        console.log(Multinomial[i].getAttribute("key"));
+        if (
+          that.deletingTd.getAttribute("key") ==
+          Multinomial[i].getAttribute("key")
+        ) {
+          flag = true;
+          Multinomial[i].style.border = "1px solid black";
+
+          Multinomial[i].removeAttribute("key");
+          Multinomial[i].removeAttribute("index");
+          Multinomial[i].removeAttribute("writable");
+        }
+        if (flag) {
+          Multinomial[i].innerHTML = "";
+        }
+      }
+
       if (this.deletingTd.nodeName == "TD") {
         this.deletingTd.style.border = "1px solid black";
         this.deletingTd.innerHTML = "";
@@ -498,8 +588,8 @@ export default {
     }
   },
   mounted() {
-    this.getTable();
     this.getKey();
+    this.getTable();
   }
 };
 </script>
