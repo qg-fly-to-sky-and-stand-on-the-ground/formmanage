@@ -5,6 +5,7 @@ import store from './store'
 import '@/styles/resetStyle.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import ViewUI from 'view-design';
 import VueContextMenu from '@xunlei/vue-context-menu';
 
 Vue.use(VueContextMenu);

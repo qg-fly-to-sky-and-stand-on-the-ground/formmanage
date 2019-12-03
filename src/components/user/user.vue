@@ -220,11 +220,17 @@ export default {
             // 复原
             let hasKey = document.getElementsByClassName("editable");
             for (let i = 0; i < hasKey.length; i++) {
-              for (let j = 0; j < this.List.length; j++) {
-                if (hasKey[i].getAttribute("key") == this.List[j].nameEn) {
-                  this.unlabeledList.splice(this.List[j], 1);
-                  this.labeledList.push(this.List[j]);
-                  this.correspondList.push(hasKey[i]);
+              for (let j = 0; j < that.List.length; j++) {
+                if (hasKey[i].getAttribute("key") == that.List[j].nameEn) {
+                  that.unlabeledList.splice(that.List[j], 1);
+                  that.labeledList.push(that.List[j]);
+                  that.correspondList.push(hasKey[i]);
+                  if (hasKey[i].nodeName == "TD") {
+                    hasKey[i].innerHTML = that.List[j].nameCh;
+                  }
+                  if (hasKey[i].nodeName == "SPAN") {
+                    hasKey[i].innerHTML += "  [" + that.List[j].nameCh + "]";
+                  }
                 }
               }
             }
@@ -232,6 +238,7 @@ export default {
             for (let i = 0; i < tdAll.length; i++) {
               if (tdAll[i].getAttribute("writable")) {
                 tdAll[i].style.border = "1px solid #01A527";
+                tdAll[i].style.color = "#01A527";
               }
               if (!tdAll[i].innerText || tdAll[i].innerText == "　") {
                 tdAll[i].innerHTML = "";
@@ -359,6 +366,10 @@ export default {
         if (this.domLast.nodeName == "TD") {
           this.domLast.innerHTML = "";
         }
+        if (this.domLast.nodeName == "SPAN") {
+          let str = this.domLast.innerHTML.split("  [")[0];
+          this.domLast.innerHTML = str;
+        }
         this.domLast.removeAttribute("key");
         this.domLast.removeAttribute("index");
       }
@@ -379,6 +390,10 @@ export default {
         if (this.dom.nodeName == "TD") {
           this.dom.innerHTML = "";
         }
+        if (this.dom.nodeName == "SPAN") {
+          let str = this.dom.innerHTML.split("  [")[0];
+          this.dom.innerHTML = str;
+        }
         this.dom.removeAttribute("key");
         this.dom.removeAttribute("index");
       }
@@ -391,6 +406,8 @@ export default {
             this.dom.innerHTML += this.unlabeledList[this.currentIndex].nameCh;
           } else {
             this.dom.style.color = "#01A527";
+            this.dom.innerHTML +=
+              "  [" + this.unlabeledList[this.currentIndex].nameCh + "]";
           }
           this.dom.setAttribute("writable", "true");
           this.dom.setAttribute(
@@ -407,6 +424,9 @@ export default {
             ].nameCh;
           } else {
             this.domLast.style.color = "#01A527";
+            this.domLast.innerHTML += this.unlabeledList[
+              this.currentIndex
+            ].nameCh;
           }
           this.dom.setAttribute("writable", "true");
           this.domLast.setAttribute(
@@ -433,9 +453,14 @@ export default {
       if (this.deletingTd.nodeName == "TD") {
         this.deletingTd.style.border = "1px solid black";
         this.deletingTd.innerHTML = "";
-        this.deletingTdt.removeAttribute("key");
-        this.deletingTd.removeAttribute("index");
       }
+      if (this.deletingTd.nodeName == "SPAN") {
+        this.deletingTd.style.color = "#2c3e50";
+        this.deletingTd.innerHTML = this.deletingTd.innerHTML.split("  [")[0];
+      }
+      this.deletingTd.removeAttribute("key");
+      this.deletingTd.removeAttribute("index");
+      this.deletingTd.removeAttribute("writable");
       this.contextMenuVisible = false;
 
       //       let data = {
