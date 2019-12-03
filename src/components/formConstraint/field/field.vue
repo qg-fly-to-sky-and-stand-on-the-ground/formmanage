@@ -5,7 +5,6 @@
         width: 1528px;
         margin: auto;
         background-color: rgba(255, 255, 255, 1);
-        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
         opacity: 1;
     }
 
@@ -15,6 +14,7 @@
 
     .form-data-content {
         display: inline-block;
+        height: 68px;
         width: 230px;
         vertical-align: top;
         border-right: 2px solid rgba(245, 245, 245, 1);

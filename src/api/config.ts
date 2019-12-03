@@ -24,7 +24,6 @@ const _Request = axios.create({
  */
 _Request.interceptors.request.use((config: any): any => {
   // 当存在token的时候，将token加到请求头上面
-
   return config
 }, error => {})
 

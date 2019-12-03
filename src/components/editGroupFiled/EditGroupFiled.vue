@@ -137,7 +137,7 @@ export default class EditGroupFiled extends Vue {
     for(let i = 0; i < auth.constraintList.length; i++) {
       for(let j = 0; j < this.localFiledList.length; j++) {
         if(auth.constraintList[i].nameEn == this.localFiledList[j]) {
-          auth.constraintList[i].type = this.type
+          auth.constraintList[i].type = auth.groupType[this.type].type
         }
       }
     }
@@ -160,9 +160,11 @@ export default class EditGroupFiled extends Vue {
     })
 
     console.log(deleteField)
-    console.log(addField)
+    console.log(this.type)
 
     this.changeType()
+
+    console.log(auth.constraintList)
 
 
     if (this.localName.length == 0) {
