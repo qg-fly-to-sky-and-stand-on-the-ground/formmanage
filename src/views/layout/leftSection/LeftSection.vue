@@ -63,9 +63,9 @@
     </div>
     <span class="system-name">智能表单约束系统</span>
     <div class="choice-container">
-      <div class="choice-item">上传文件</div>
-      <div class="choice-item">表单约束</div>
-      <div class="choice-item">用户界面</div>
+      <div class="choice-item" @click="toUpload">上传文件</div>
+      <div class="choice-item" @click="toFormConstraint">表单约束</div>
+      <div class="choice-item" @click="toUser">用户界面</div>
     </div>
   </section>
 </template>
@@ -76,6 +76,15 @@ import Component from 'vue-class-component';
 
 @Component
 export default class LeftSection extends Vue {
+  toUpload() {
+    this.$router.push({name: 'upLoad'})
+  }
+  toFormConstraint(){
+    this.$router.push({name: 'formConstraint'})
+  }
 
+  toUser() {
+    this.$router.push({name: 'user'})
+  }
 }
 </script>

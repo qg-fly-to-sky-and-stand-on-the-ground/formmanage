@@ -2,7 +2,6 @@
     @import "scss/mixin";
 
     .form-out-container {
-        width: 100%;
         height: 79vh;
     }
 

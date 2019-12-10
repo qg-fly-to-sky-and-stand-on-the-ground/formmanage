@@ -17,11 +17,10 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import Header from "@/views/layout/rightSection/header/Header.vue";
-import FormConstraint from "@/components/formConstraint/formConstraint.vue";
+
 
 @Component({
   components: {
-    FormConstraint,
     Header,
   }
 })

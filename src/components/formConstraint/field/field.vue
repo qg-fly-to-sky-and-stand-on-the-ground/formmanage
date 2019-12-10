@@ -13,8 +13,8 @@
     }
 
     .form-data-content {
-        display: inline-block;
         height: 68px;
+        display: inline-block;
         width: 230px;
         vertical-align: top;
         border-right: 2px solid rgba(245, 245, 245, 1);
@@ -25,7 +25,7 @@
     }
 
     .form-data-content-operate {
-        width: 378px;
+        width: 360px;
     }
 
     .expressionBtn {

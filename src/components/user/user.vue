@@ -159,7 +159,7 @@ path {
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
 import $ from "jquery";
 export default {
@@ -188,7 +188,7 @@ export default {
     close() {
       this.contextMenuVisible = false;
     },
-    deleteTd(e: any) {
+    deleteTd(e) {
       this.deletingTd = e.target;
     },
     getTable() {
@@ -213,8 +213,8 @@ export default {
         complete: function(res) {
           console.log(res);
           setTimeout(() => {
-            let tdAll: any = document.getElementsByTagName("td");
-            let spanAll: any = document.getElementsByTagName("span");
+            let tdAll = document.getElementsByTagName("td");
+            let spanAll = document.getElementsByTagName("span");
             that.tdAll = tdAll;
             that.spanAll = spanAll;
             // 复原

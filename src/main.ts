@@ -6,9 +6,10 @@ import '@/styles/resetStyle.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import ViewUI from 'view-design';
-import VueContextMenu from '@xunlei/vue-context-menu';
-
-Vue.use(VueContextMenu);
+// import VueContextMenu from '@xunlei/vue-context-menu';
+//
+// Vue.use(VueContextMenu);
+import 'view-design/dist/styles/iview.css';
 
 Vue.use(ElementUI);
 Vue.use(ViewUI);
