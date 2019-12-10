@@ -20,7 +20,7 @@
         border-right: 2px solid rgba(245, 245, 245, 1);
         border-bottom: 2px solid rgba(245, 245, 245, 1);
         line-height: 68px;
-        font-size: 15px;
+        font-size: 23px;
         overflow: hidden;
     }
 
